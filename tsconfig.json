@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es6",
+    "outDir": "temp",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "pretty": true,
+    "module": "commonjs",
+    "lib": [
+      "es2017",
+      "es6",
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "index.ts",
+    "test/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": true,
+  "lib": [
+    "es2017",
+    "es6",
+  ]
+}
