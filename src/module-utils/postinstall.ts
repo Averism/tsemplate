@@ -77,8 +77,8 @@ console.log(`
 tsemplate module has added few dependencies to your package.json
 please run 
 
-npm install
-\u001b[42m
+\u001b[42m\u001b[30mnpm install\u001b[0m
+
 to install these dependencies before continuing
-\u001b[0m`)
+`)
 
