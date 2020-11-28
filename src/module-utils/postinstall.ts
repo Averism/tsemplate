@@ -1,5 +1,4 @@
-// import fs from 'fs'
-console.log("this file:",__dirname,__filename);
-console.log("cwd:",process.cwd());
-console.log("env-pwd:",process.env.PWD);
-console.log("init-cwd:",process.env.INIT_CWD);
+import fs from 'fs'
+import path from 'path'
+const cwd: string = process.env.INIT_CWD;
+console.log(fs.readFileSync(path.join(cwd,"package.json")).toString());
