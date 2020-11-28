@@ -9,7 +9,7 @@
     "build": "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d",
     "build:ts": "tsc --project tsconfig.build.json --outDir build",
     "build:ts.d": "tsc -d --project tsconfig.build.json --outDir build --emitDeclarationOnly",
-    "postinstall": "node -r ts-node/register src/module-utils/postinstall.ts && node -r ts-node/register src/module-utils/reconfigure.ts && npm install",
+    "postinstall": "node -r ts-node/register src/module-utils/postinstall.ts && node -r ts-node/register src/module-utils/reconfigure.ts",
     "test": "mocha",
     "cov": "nyc mocha",
     "tsc": "tsc"
