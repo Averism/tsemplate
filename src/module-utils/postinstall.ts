@@ -73,6 +73,32 @@ const tsconfig = {
 if(!fs.existsSync(path.join(cwd,"tsconfig.json")))
     fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(tsconfig,null,2));
 
+//SETTING UP .gitignore and .npmignore
+let gitignore: Set<string> = new Set([
+  "coverage",
+  "node_modules",
+  ".nyc_output",
+  "temp",
+  ".DS_Store"
+]);
+let npmignore: Set<string> = new Set([
+  "coverage",
+  "node_modules",
+  ".nyc_output",
+  "temp",
+  ".DS_Store"
+]);
+if(fs.existsSync(path.join(cwd,".gitignore"))){
+  let existing = fs.readFileSync(path.join(cwd,".gitignore")).toString().split('\n');
+  for(let s of existing) gitignore.add(s);
+}
+fs.writeFileSync(path.join(cwd,".gitignore"),Array.from(gitignore).join('\n'));
+if(fs.existsSync(path.join(cwd,".npmignore"))){
+  let existing = fs.readFileSync(path.join(cwd,".npmignore")).toString().split('\n');
+  for(let s of existing) npmignore.add(s);
+}
+fs.writeFileSync(path.join(cwd,".npmignore"),Array.from(gitignore).join('\n'));
+
 console.log(`
 tsemplate module has added few dependencies to your package.json
 please run 
