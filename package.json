@@ -4,6 +4,7 @@
   "description": "TypeScript Template Project for Averism",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "bin": "build/index.js",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
     "build": "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d",
