@@ -71,12 +71,14 @@ const tsconfig = {
   };
 
 if(!fs.existsSync(path.join(cwd,"tsconfig.json")))
-    fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(packageJson,null,2));
+    fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(tsconfig,null,2));
 
 console.log(`
 tsemplate module has added few dependencies to your package.json
 please run 
+
 npm install
+\u001b[42m
 to install these dependencies before continuing
-`)
+\u001b[0m`)
 
