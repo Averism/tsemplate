@@ -11,6 +11,4 @@ export default function main(mode: string):number{
     return 0;
 }
 
-/* istanbul ignore if */
-if(process.argv[1] == path.join(process.cwd(),"src","index.ts"))
-    main(process.argv[2]); 
+main(process.argv[2]); 
