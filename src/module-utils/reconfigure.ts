@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import readline from 'readline'
+import {buildconfig} from './tsconfig'
+
 const crl = () => readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -18,7 +20,7 @@ async function reconfigure() {
         .filter(x=>packageJson.averModule[x].reconfigure)
         .filter(x=>x!=packageJson.name)
         .map(x=>packageJson.averModule[x].reconfigure)
-        .concat([packageJson.scripts.reconfigure || "echo finished reconfiguring"])
+        .concat(["echo finished reconfiguring"])
         .join(" && ");
 
     if(packageJson.averModule.tsemplate.firstrun){
@@ -64,28 +66,4 @@ to install these dependencies and configure your project before continuing
 
     fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
 }
-
-const buildconfig = {
-    "compilerOptions": {
-      "noImplicitAny": true,
-      "target": "es6",
-      "outDir": "build",
-      "sourceMap": false,
-      "moduleResolution": "node",
-      "pretty": false,
-      "esModuleInterop": true,
-      "module": "commonjs",
-    },
-    "include": [
-      "src/**/*",
-      "index.ts",
-    ],
-    "exclude": [
-      "node_modules",
-      "**/*.spec.ts"
-    ],
-    "compileOnSave": true,
-    "lib": ["es2017", "es6"]
-  }
-
 reconfigure();

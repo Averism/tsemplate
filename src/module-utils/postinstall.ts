@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import {tsconfig} from './tsconfig'
 const cwd: string = process.env.INIT_CWD;
 
 //SETTING UP package.json
@@ -36,39 +37,6 @@ if(!packageJson.nyc) packageJson.nyc = {
   }
 
 fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
-
-
-//SETTING UP tsconfig.json
-const tsconfig = {
-    "compilerOptions": {
-      "noImplicitAny": true,
-      "target": "es6",
-      "outDir": "temp",
-      "sourceMap": true,
-      "moduleResolution": "node",
-      "pretty": true,
-      "esModuleInterop": true,
-      "module": "commonjs",
-      "lib": [
-        "es2017",
-        "es6",
-      ]
-    },
-    "include": [
-      "src/**/*",
-      "index.ts",
-      "test/*"
-    ],
-    "exclude": [
-      "node_modules",
-      "**/*.spec.ts"
-    ],
-    "compileOnSave": true,
-    "lib": [
-      "es2017",
-      "es6",
-    ]
-  };
 
 if(!fs.existsSync(path.join(cwd,"tsconfig.json")))
     fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(tsconfig,null,2));
