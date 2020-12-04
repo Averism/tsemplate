@@ -28,9 +28,7 @@ async function reconfigure() {
 tsemplate module has added few dependencies to your package.json
 please run 
 
-\u001b[42m\u001b[30mnpm install\u001b[0m
-and
-\u001b[42m\u001b[30mnpm run reconfigure\u001b[0m
+\u001b[42m\u001b[30mnpm run reconfigure && npm install\u001b[0m
 
 to install these dependencies and configure your project before continuing
 `)
@@ -52,8 +50,8 @@ to install these dependencies and configure your project before continuing
     }
     console.log("reconfiguring for",mode);
     if(mode == "module") {
-        if(!fs.existsSync(path.join(cwd,"tsconfig.json")))
-            fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(buildconfig,null,2));
+        if(!fs.existsSync(path.join(cwd,"tsconfig.build.json")))
+            fs.writeFileSync(path.join(cwd,"tsconfig.build.json"),JSON.stringify(buildconfig,null,2));
         packageJson.scripts['build:ts.d'] = "tsc -d --project tsconfig.build.json --emitDeclarationOnly";
         packageJson.scripts['build:ts'] = "tsc --project tsconfig.build.json";
         packageJson.scripts.build = "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d";
