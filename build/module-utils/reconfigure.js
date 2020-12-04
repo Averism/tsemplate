@@ -66,6 +66,7 @@ to install these dependencies and configure your project before continuing
             packageJson.scripts['build:ts.d'] = "tsc -d --project tsconfig.build.json --emitDeclarationOnly";
             packageJson.scripts['build:ts'] = "tsc --project tsconfig.build.json";
             packageJson.scripts.build = "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d";
+            packageJson.scripts.reconfigure = "node -r ts-node/register src/module-utils/reconfigure.ts";
             packageJson.main = "build/index.js";
             packageJson.bin = "build/index.js";
             packageJson.types = "build/index.d.js";
