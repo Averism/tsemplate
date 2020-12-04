@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const readline_1 = __importDefault(require("readline"));
+const tsconfig_1 = require("./tsconfig");
 const crl = () => readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -30,8 +31,21 @@ function reconfigure() {
             .filter(x => packageJson.averModule[x].reconfigure)
             .filter(x => x != packageJson.name)
             .map(x => packageJson.averModule[x].reconfigure)
-            .concat([packageJson.scripts.reconfigure || "echo finished reconfiguring"])
+            .concat(["echo finished reconfiguring"])
             .join(" && ");
+        if (packageJson.averModule.tsemplate.firstrun) {
+            delete packageJson.averModule.tsemplate.firstrun;
+            console.log(`
+tsemplate module has added few dependencies to your package.json
+please run 
+
+\u001b[42m\u001b[30mnpm run reconfigure && npm install\u001b[0m
+
+to install these dependencies and configure your project before continuing
+`);
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "package.json"), JSON.stringify(packageJson, null, 2));
+            return;
+        }
         let mode = packageJson.averModule.tsemplate.mode;
         if (mode != "module" && mode != "application") {
             const rl = crl();
@@ -44,38 +58,22 @@ function reconfigure() {
                 mode = "application";
             else
                 mode = "module";
-            console.log("reconfiguring for ", mode);
-            if (mode == "module") {
-                if (!fs_1.default.existsSync(path_1.default.join(cwd, "tsconfig.json")))
-                    fs_1.default.writeFileSync(path_1.default.join(cwd, "tsconfig.json"), JSON.stringify(buildconfig, null, 2));
-                packageJson.scripts['build:ts.d'] = "tsc -d --project tsconfig.build.json --emitDeclarationOnly";
-                packageJson.scripts['build:ts'] = "tsc --project tsconfig.build.json";
-                packageJson.scripts.build = "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d";
-            }
+        }
+        console.log("reconfiguring for", mode);
+        if (mode == "module") {
+            if (!fs_1.default.existsSync(path_1.default.join(cwd, "tsconfig.build.json")))
+                fs_1.default.writeFileSync(path_1.default.join(cwd, "tsconfig.build.json"), JSON.stringify(tsconfig_1.buildconfig, null, 2));
+            packageJson.scripts['build:ts.d'] = "tsc -d --project tsconfig.build.json --emitDeclarationOnly";
+            packageJson.scripts['build:ts'] = "tsc --project tsconfig.build.json";
+            packageJson.scripts.build = "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d";
+            packageJson.main = "build/index.js";
+            packageJson.bin = "build/index.js";
+            packageJson.types = "build/index.d.js";
+        }
+        else {
+            // APPLICATION RECONFIGURATION GOES HERE
         }
         fs_1.default.writeFileSync(path_1.default.join(cwd, "package.json"), JSON.stringify(packageJson, null, 2));
     });
 }
-const buildconfig = {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es6",
-        "outDir": "build",
-        "sourceMap": false,
-        "moduleResolution": "node",
-        "pretty": false,
-        "esModuleInterop": true,
-        "module": "commonjs",
-    },
-    "include": [
-        "src/**/*",
-        "index.ts",
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
-    ],
-    "compileOnSave": true,
-    "lib": ["es2017", "es6"]
-};
 reconfigure();

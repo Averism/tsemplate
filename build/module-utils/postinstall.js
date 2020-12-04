@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const tsconfig_1 = require("./tsconfig");
 const cwd = process.env.INIT_CWD;
 //SETTING UP package.json
 let packageJson = JSON.parse(fs_1.default.readFileSync(path_1.default.join(cwd, "package.json")).toString());
@@ -12,7 +13,8 @@ if (!packageJson.averModule)
     packageJson.averModule = {};
 packageJson.averModule.tsemplate = {
     reconfigure: "tsemplate reconfigure",
-    priority: 0
+    priority: 0,
+    firstrun: true
 };
 if (!packageJson.devDependencies)
     packageJson.devDependencies = {};
@@ -39,40 +41,8 @@ if (!packageJson.nyc)
         "produce-source-map": true
     };
 fs_1.default.writeFileSync(path_1.default.join(cwd, "package.json"), JSON.stringify(packageJson, null, 2));
-//SETTING UP tsconfig.json
-const tsconfig = {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es6",
-        "outDir": "temp",
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "pretty": true,
-        "esModuleInterop": true,
-        "module": "commonjs",
-        "experimentalDecorators": true,
-        "lib": [
-            "es2017",
-            "es6",
-        ]
-    },
-    "include": [
-        "src/**/*",
-        "index.ts",
-        "test/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
-    ],
-    "compileOnSave": true,
-    "lib": [
-        "es2017",
-        "es6",
-    ]
-};
 if (!fs_1.default.existsSync(path_1.default.join(cwd, "tsconfig.json")))
-    fs_1.default.writeFileSync(path_1.default.join(cwd, "tsconfig.json"), JSON.stringify(tsconfig, null, 2));
+    fs_1.default.writeFileSync(path_1.default.join(cwd, "tsconfig.json"), JSON.stringify(tsconfig_1.tsconfig, null, 2));
 //SETTING UP .gitignore and .npmignore
 let gitignore = new Set([
     "coverage",
@@ -100,11 +70,3 @@ if (fs_1.default.existsSync(path_1.default.join(cwd, ".npmignore"))) {
         npmignore.add(s);
 }
 fs_1.default.writeFileSync(path_1.default.join(cwd, ".npmignore"), Array.from(gitignore).join('\n'));
-console.log(`
-tsemplate module has added few dependencies to your package.json
-please run 
-
-\u001b[42m\u001b[30mnpm install\u001b[0m
-
-to install these dependencies before continuing
-`);
