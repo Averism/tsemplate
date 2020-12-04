@@ -20,6 +20,23 @@ async function reconfigure() {
         .map(x=>packageJson.averModule[x].reconfigure)
         .concat([packageJson.scripts.reconfigure || "echo finished reconfiguring"])
         .join(" && ");
+
+    if(packageJson.averModule.tsemplate.firstrun){
+        delete packageJson.averModule.tsemplate.firstrun;
+
+        console.log(`
+tsemplate module has added few dependencies to your package.json
+please run 
+
+\u001b[42m\u001b[30mnpm install\u001b[0m
+and
+\u001b[42m\u001b[30mnpm run reconfigure\u001b[0m
+
+to install these dependencies and configure your project before continuing
+`)
+        fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
+        return;
+    }
     
     let mode = packageJson.averModule.tsemplate.mode
     if(mode != "module" && mode != "application"){
@@ -33,7 +50,7 @@ async function reconfigure() {
         if(mode == "app" || mode == "application") mode = "application"
         else mode = "module";
     }
-    console.log("reconfiguring for ",mode);
+    console.log("reconfiguring for",mode);
     if(mode == "module") {
         if(!fs.existsSync(path.join(cwd,"tsconfig.json")))
             fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(buildconfig,null,2));

@@ -7,7 +7,8 @@ let packageJson: any = JSON.parse(fs.readFileSync(path.join(cwd,"package.json"))
 if(!packageJson.averModule) packageJson.averModule = {};
 packageJson.averModule.tsemplate = {
     reconfigure: "tsemplate reconfigure",
-    priority: 0
+    priority: 0,
+    firstrun: true
 }
 if(!packageJson.devDependencies) packageJson.devDependencies = {};
 packageJson.devDependencies["@types/mocha"] = "^8.0.3";
@@ -98,12 +99,4 @@ if(fs.existsSync(path.join(cwd,".npmignore"))){
 }
 fs.writeFileSync(path.join(cwd,".npmignore"),Array.from(gitignore).join('\n'));
 
-console.log(`
-tsemplate module has added few dependencies to your package.json
-please run 
-
-\u001b[42m\u001b[30mnpm install\u001b[0m
-
-to install these dependencies before continuing
-`)
 
