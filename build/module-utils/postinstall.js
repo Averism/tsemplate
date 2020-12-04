@@ -43,7 +43,7 @@ if (!packageJson.nyc)
 //initializing source folder
 fs_1.default.mkdirSync(path_1.default.join(cwd, "src"));
 fs_1.default.copyFileSync(path_1.default.join("src", "module-utils", "index.ts"), path_1.default.join(cwd, "src", "index.ts"));
-packageJson.script.start = "node -r ts-node/register src/index.ts";
+packageJson.scripts.start = "node -r ts-node/register src/index.ts";
 //initializing test folder
 fs_1.default.mkdirSync(path_1.default.join(cwd, "test"));
 fs_1.default.writeFileSync(path_1.default.join(cwd, "package.json"), JSON.stringify(packageJson, null, 2));
