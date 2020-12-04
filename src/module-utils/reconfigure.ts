@@ -21,6 +21,8 @@ async function reconfigure() {
         .concat([packageJson.scripts.reconfigure || "echo finished reconfiguring"])
         .join(" && ");
 
+    console.log(packageJson)
+
     if(packageJson.averModule.tsemplate.firstrun){
         delete packageJson.averModule.tsemplate.firstrun;
 
