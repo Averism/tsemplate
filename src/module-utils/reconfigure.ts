@@ -66,8 +66,8 @@ to install these dependencies and configure your project before continuing
             +index.substr(i);
         fs.writeFileSync(path.join(cwd,"src","index.ts"),index);
         if(!fs.existsSync(path.join(cwd, "src", "module-utils"))) fs.mkdirSync(path.join(cwd, "src", "module-utils"));
-        fs.writeFileSync(path.join(cwd,"src","module-utils","postinstall.ts"),"\\\\YOUR POSTINSTALL SCRIPT HERE");
-        fs.writeFileSync(path.join(cwd,"src","module-utils","reconfigure.ts"),"\\\\YOUR RECONFIGURE SCRIPT HERE");
+        fs.writeFileSync(path.join(cwd,"src","module-utils","postinstall.ts"),"//YOUR POSTINSTALL SCRIPT HERE");
+        fs.writeFileSync(path.join(cwd,"src","module-utils","reconfigure.ts"),"//YOUR RECONFIGURE SCRIPT HERE");
         packageJson.scripts.postinstall = "node -r ts-node/register src/module-utils/postinstall.ts && "+
             "node -r ts-node/register src/module-utils/reconfigure.ts";
     } else {
