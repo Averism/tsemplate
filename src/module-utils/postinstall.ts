@@ -6,7 +6,7 @@ const cwd: string = process.env.INIT_CWD;
 let packageJson: any = JSON.parse(fs.readFileSync(path.join(cwd,"package.json")).toString());
 if(!packageJson.averModule) packageJson.averModule = {};
 packageJson.averModule.tsemplate = {
-    reconfigure: path.join(path.relative(cwd,process.cwd()),'src','module-utils','reconfigure.ts'),
+    reconfigure: "tsemplate reconfigure",
     priority: 0
 }
 if(!packageJson.devDependencies) packageJson.devDependencies = {};
@@ -48,7 +48,6 @@ const tsconfig = {
       "pretty": true,
       "esModuleInterop": true,
       "module": "commonjs",
-      "experimentalDecorators": true,
       "lib": [
         "es2017",
         "es6",

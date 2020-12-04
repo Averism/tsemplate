@@ -8,7 +8,6 @@
     "pretty": true,
     "esModuleInterop": true,
     "module": "commonjs",
-    "experimentalDecorators": true,
     "lib": [
       "es2017",
       "es6",

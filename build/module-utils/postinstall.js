@@ -11,7 +11,7 @@ let packageJson = JSON.parse(fs_1.default.readFileSync(path_1.default.join(cwd, 
 if (!packageJson.averModule)
     packageJson.averModule = {};
 packageJson.averModule.tsemplate = {
-    reconfigure: path_1.default.join(path_1.default.relative(cwd, process.cwd()), 'src', 'module-utils', 'reconfigure.ts'),
+    reconfigure: "tsemplate reconfigure",
     priority: 0
 };
 if (!packageJson.devDependencies)
