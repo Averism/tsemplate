@@ -36,6 +36,15 @@ if(!packageJson.nyc) packageJson.nyc = {
     "produce-source-map": true
   }
 
+//initializing source folder
+fs.mkdirSync(path.join(cwd, "src"));
+fs.copyFileSync(path.join("src","module-utils","index.ts"),path.join(cwd, "src","index.ts"))
+packageJson.script.start = "node -r ts-node/register src/index.ts";
+
+
+//initializing test folder
+fs.mkdirSync(path.join(cwd, "test"));
+
 fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
 
 if(!fs.existsSync(path.join(cwd,"tsconfig.json")))

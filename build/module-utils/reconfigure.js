@@ -69,6 +69,15 @@ to install these dependencies and configure your project before continuing
             packageJson.main = "build/index.js";
             packageJson.bin = "build/index.js";
             packageJson.types = "build/index.d.js";
+            let index = fs_1.default.readFileSync(path_1.default.join(cwd, "src", "index.ts")).toString();
+            let i = index.indexOf("//your command line parsing logic here") + 38;
+            index = index.substr(0, i) + "\n        case 'reconfigure': require('./module-utils/reconfigure'); break;"
+                + index.substr(i);
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "src", "index.ts"), index);
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "src", "module-util", "postinstall.ts"), "\\\\YOUR POSTINSTALL SCRIPT HERE");
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "src", "module-util", "reconfigure.ts"), "\\\\YOUR RECONFIGURE SCRIPT HERE");
+            packageJson.scripts.postinstall = "node -r ts-node/register src/module-utils/postinstall.ts && " +
+                "node -r ts-node/register src/module-utils/reconfigure.ts";
         }
         else {
             // APPLICATION RECONFIGURATION GOES HERE
