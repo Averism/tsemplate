@@ -54,6 +54,20 @@ function reconfigure() {
             fs_1.default.writeFileSync(path_1.default.join(cwd, "package.json"), JSON.stringify(packageJson, null, 2));
             return;
         }
+        //Setup the Project Name
+        if (packageJson.name == "nameplaceholder") {
+            const rl = crl();
+            const nameQuestion = (resolve, reject) => rl.question("please enter your project name: ", ans => {
+                if (ans.length > 0) {
+                    rl.close();
+                    resolve(ans);
+                }
+                else {
+                    return new Promise(nameQuestion);
+                }
+            });
+            packageJson.name = (yield new Promise(nameQuestion)) || 'myproject';
+        }
         let mode = packageJson.averModule.tsemplate.mode;
         if (mode != "module" && mode != "application") {
             const rl = crl();
@@ -79,7 +93,7 @@ function reconfigure() {
             packageJson.scripts.reconfigure = "node -r ts-node/register src/module-utils/reconfigure.ts";
             packageJson.main = "build/index.js";
             packageJson.bin = "build/index.js";
-            packageJson.types = "build/index.d.js";
+            packageJson.types = "build/index.d.ts";
             if (!fs_1.default.existsSync(path_1.default.join(cwd, "src", "module-utils")))
                 fs_1.default.mkdirSync(path_1.default.join(cwd, "src", "module-utils"));
             if (!fs_1.default.existsSync(path_1.default.join(cwd, "src", "module-utils", "postinstall.ts")))

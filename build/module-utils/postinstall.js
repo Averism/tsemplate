@@ -26,6 +26,7 @@ packageJson.devDependencies["nyc"] = "^15.1.0";
 packageJson.devDependencies["rubah"] = "github:averism/rubah";
 packageJson.scripts.test = "mocha";
 packageJson.scripts.cov = "nyc mocha";
+packageJson.scripts.reconfigure = "tsemplate reconfigure";
 if (!packageJson.nyc)
     packageJson.nyc = {
         "require": [
@@ -62,18 +63,18 @@ let gitignore = new Set([
     "node_modules",
     ".nyc_output",
     "temp",
-    ".DS_Store"
+    ".DS_Store",
+    ".avermodule"
 ]);
 let npmignore = new Set([
     "coverage",
     "node_modules",
-    "src",
     "test",
-    "tsconfig*.json",
     "docs",
     ".nyc_output",
     "temp",
-    ".DS_Store"
+    ".DS_Store",
+    ".avermodule"
 ]);
 if (fs_1.default.existsSync(path_1.default.join(cwd, ".gitignore"))) {
     let existing = fs_1.default.readFileSync(path_1.default.join(cwd, ".gitignore")).toString().split('\n');
