@@ -20,7 +20,8 @@ packageJson.devDependencies["nyc"] = "^15.1.0";
 packageJson.devDependencies["rubah"] = "github:averism/rubah";
 
 packageJson.scripts.test = "mocha";
-packageJson.scripts.cov = "nyc mocha"
+packageJson.scripts.cov = "nyc mocha";
+packageJson.scripts.reconfigure = "tsemplate reconfigure"
 
 if(!packageJson.nyc) packageJson.nyc = {
     "require": [
