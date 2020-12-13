@@ -1,8 +1,13 @@
 coverage
 node_modules
+src
+test
+tsconfig*.json
+docs
 .nyc_output
 temp
 .DS_Store
+.avermodule
 stats.json
 npm-debug.log
 .idea

@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "bin": "build/index.js",
   "scripts": {
-    "start": "node -r ts-node/register src/index.ts",
+    "start": "rubah generate && node -r ts-node/register src/index.ts",
     "build": "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:ts.d": "tsc -d --project tsconfig.build.json --emitDeclarationOnly",
@@ -16,7 +16,8 @@
     "cov": "nyc mocha",
     "tsc": "tsc",
     "preprocess": "rubah generate",
-    "revertTemplate": "rubah revert"
+    "revertTemplate": "rubah revert",
+    "rubah": "rubah generate"
   },
   "author": "Averman",
   "license": "GPL-3.0",
@@ -29,7 +30,8 @@
   "devDependencies": {
     "@types/mocha": "^8.0.3",
     "mocha": "^8.0.3",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "rubah": "github:averism/rubah"
   },
   "nyc": {
     "require": [
@@ -54,7 +56,8 @@
       "mode": "module"
     },
     "rubah": {
-      "config": ".avermodule/rubah/rubahconfig.json"
+      "config": ".avermodule/rubah/rubahconfig.json",
+      "firstrun": true
     }
   }
 }

@@ -60,7 +60,8 @@ let gitignore: Set<string> = new Set([
   "node_modules",
   ".nyc_output",
   "temp",
-  ".DS_Store"
+  ".DS_Store",
+  ".avermodule"
 ]);
 let npmignore: Set<string> = new Set([
   "coverage",
@@ -71,7 +72,8 @@ let npmignore: Set<string> = new Set([
   "docs",
   ".nyc_output",
   "temp",
-  ".DS_Store"
+  ".DS_Store",
+  ".avermodule"
 ]);
 if(fs.existsSync(path.join(cwd,".gitignore"))){
   let existing = fs.readFileSync(path.join(cwd,".gitignore")).toString().split('\n');

@@ -1,8 +1,24 @@
-# tsemplate
-TypeScript Template for Averism
+<!--#!line-writer title mdselect(h1,package,name)-->
 
-this is repo for template repo using typescript which pre-packaged with:
-- typescript dependency
-- unit test using mocha
-- coverage using istanbul
-- run/build/test/coverage script
+<!--#!line-writer desc select(package,description)-->
+
+<!--#!line-writer ver select(package,version)-->
+
+---
+
+## Installation
+
+```bash
+
+<!--#!line-writer install select(package,installRepo)-->
+```
+
+---
+
+## overview
+
+<!--#!line-writer ver select(docs,overview)-->
+
+---
+
+<!--#!line-writer copyright mdcopyright(package,2020)-->

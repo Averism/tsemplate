@@ -26,6 +26,21 @@ async function reconfigure() {
         fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
         return;
     }
+
+    //Setup the Project Name
+    if(packageJson.name == "nameplaceholder"){
+        const rl = crl();
+        const nameQuestion = (resolve: any, reject: any):any => rl.question(
+            "please enter your project name: ", ans => {
+                if(ans.length>0){
+                    rl.close();
+                    resolve(ans);
+                } else {
+                    return new Promise(nameQuestion)
+                }
+        })
+        packageJson.name = await new Promise(nameQuestion) || 'myproject';
+    }
     
     let mode = packageJson.averModule.tsemplate.mode
     if(mode != "module" && mode != "application"){
@@ -51,7 +66,7 @@ async function reconfigure() {
         packageJson.scripts.reconfigure = "node -r ts-node/register src/module-utils/reconfigure.ts";
         packageJson.main = "build/index.js";
         packageJson.bin = "build/index.js";
-        packageJson.types = "build/index.d.js";
+        packageJson.types = "build/index.d.ts";
         if(!fs.existsSync(path.join(cwd, "src", "module-utils"))) fs.mkdirSync(path.join(cwd, "src", "module-utils"));
         if(!fs.existsSync(path.join(cwd,"src","module-utils","postinstall.ts")))
             fs.writeFileSync(path.join(cwd,"src","module-utils","postinstall.ts"),"//YOUR POSTINSTALL SCRIPT HERE");
