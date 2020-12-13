@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "TypeScript Template Project for Averism",
   "main": "build/index.js",
-  "types": "build/index.d.js",
+  "types": "build/index.d.ts",
   "bin": "build/index.js",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
@@ -54,8 +54,7 @@
       "mode": "module"
     },
     "rubah": {
-      "config": ".avermodule/rubah/rubahconfig.json",
-      "firstrun": true
+      "config": ".avermodule/rubah/rubahconfig.json"
     }
   }
 }

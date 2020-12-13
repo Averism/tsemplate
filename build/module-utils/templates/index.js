@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function main(mode) {
     switch (mode) {
-        //your command line parsing logic here
+        case 'reconfigure':
+            require('./module-utils/reconfigure');
+            break;
         default: console.error("[tsemplate error] UNKNOWN MODE:", mode);
     }
     return 0;

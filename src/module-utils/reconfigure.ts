@@ -3,6 +3,8 @@ import path from 'path'
 import readline from 'readline'
 import {buildconfig} from './templates/tsconfig'
 import cp from 'child_process'
+import * as strings from './templates/strings'
+import * as jobs from './templates/rubahjobs'
 
 const crl = () => readline.createInterface({
     input: process.stdin,
@@ -14,20 +16,13 @@ async function reconfigure() {
 
     console.log("reconfiguring tsemplate");
     
-    //SETTING UP RECONFIGURE SCRIPT
     let packageJson: any = JSON.parse(fs.readFileSync(path.join(cwd,"package.json")).toString());
 
     if(packageJson.averModule.tsemplate.firstrun){
         delete packageJson.averModule.tsemplate.firstrun;
 
-        console.log(`
-tsemplate module has added few dependencies to your package.json
-please run 
-
-\u001b[42m\u001b[30mnpm run reconfigure && npm install\u001b[0m
-
-to install these dependencies and configure your project before continuing
-`)
+        console.log(strings.afterFirstReconfigure)
+        fs.writeFileSync(path.join(cwd,"README.md"),strings.readme1);
         fs.writeFileSync(path.join(cwd,"package.json"),JSON.stringify(packageJson,null,2));
         return;
     }
@@ -48,6 +43,7 @@ to install these dependencies and configure your project before continuing
     if(mode == "module") {
         if(!fs.existsSync(path.join(cwd,"tsconfig.build.json")))
             fs.writeFileSync(path.join(cwd,"tsconfig.build.json"),JSON.stringify(buildconfig,null,2));
+        fs.writeFileSync(path.join(cwd,"README.md"),strings.readmeModule);
         packageJson.scripts.reconfigure = "node -r ts-node/register src/module-utils/reconfigure.ts";
         packageJson.scripts['build:ts.d'] = "tsc -d --project tsconfig.build.json --emitDeclarationOnly";
         packageJson.scripts['build:ts'] = "tsc --project tsconfig.build.json";
@@ -66,6 +62,16 @@ to install these dependencies and configure your project before continuing
     } else {
         // APPLICATION RECONFIGURATION GOES HERE
     }
+
+    //initializing rubah folder
+    if(!fs.existsSync(path.join(cwd, ".avermodule"))) fs.mkdirSync(path.join(cwd, ".avermodule"));
+    if(!fs.existsSync(path.join(cwd, ".avermodule", "rubah"))) fs.mkdirSync(path.join(cwd, ".avermodule", "rubah"));
+    let jobsPath = path.join(cwd, ".avermodule", "rubah","jobs");
+    if(!fs.existsSync(jobsPath)) fs.mkdirSync(jobsPath);
+    //Setting Up basic rubah jobs
+    fs.writeFileSync(path.join(jobsPath,"package.json"),JSON.stringify(jobs.packagejson));
+    fs.writeFileSync(path.join(jobsPath,"index.json"),JSON.stringify(jobs.index));
+    fs.writeFileSync(path.join(jobsPath,"readme.json"),JSON.stringify(jobs.readme));
 
     for(let moduleName in packageJson.averModule){
         if(moduleName == packageJson.name) continue;
