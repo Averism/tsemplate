@@ -1,0 +1,12 @@
+{
+  "mappingfile": ".avermodule/rubah/rubahmapping.json",
+  "helpers": [
+    "rubah/build/helpers"
+  ],
+  "commands": [
+    "rubah/build/commands"
+  ],
+  "jobpaths": [
+    ".avermodule/rubah/jobs/*.json"
+  ]
+}

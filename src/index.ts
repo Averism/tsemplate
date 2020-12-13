@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-import path from "path"
-import { __String } from "typescript";
-
 export default function main(mode: string):number{
     switch(mode){
         case 'reconfigure': require('./module-utils/reconfigure'); break;

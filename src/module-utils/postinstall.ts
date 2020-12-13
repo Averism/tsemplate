@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import {tsconfig} from './tsconfig'
+import {tsconfig} from './templates/tsconfig'
 const cwd: string = process.env.INIT_CWD;
 
 //SETTING UP package.json
@@ -38,7 +38,8 @@ if(!packageJson.nyc) packageJson.nyc = {
 
 //initializing source folder
 if(!fs.existsSync(path.join(cwd, "src"))) fs.mkdirSync(path.join(cwd, "src"));
-fs.copyFileSync(path.join("src","module-utils","index.ts"),path.join(cwd, "src","index.ts"))
+if(!fs.existsSync(path.join(cwd, "src","index.ts"))) 
+  fs.copyFileSync(path.join("src","module-utils","templates","index.ts"),path.join(cwd, "src","index.ts"))
 packageJson.scripts.start = "node -r ts-node/register src/index.ts";
 
 //initializing test folder
@@ -60,6 +61,10 @@ let gitignore: Set<string> = new Set([
 let npmignore: Set<string> = new Set([
   "coverage",
   "node_modules",
+  "src",
+  "test",
+  "tsconfig*.json",
+  "docs",
   ".nyc_output",
   "temp",
   ".DS_Store"
