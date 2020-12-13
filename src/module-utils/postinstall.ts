@@ -67,7 +67,6 @@ let npmignore: Set<string> = new Set([
   "coverage",
   "node_modules",
   "test",
-  "tsconfig*.json",
   "docs",
   ".nyc_output",
   "temp",
