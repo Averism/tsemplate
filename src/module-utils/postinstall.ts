@@ -66,7 +66,6 @@ let gitignore: Set<string> = new Set([
 let npmignore: Set<string> = new Set([
   "coverage",
   "node_modules",
-  "src",
   "test",
   "tsconfig*.json",
   "docs",

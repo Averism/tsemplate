@@ -1,6 +1,5 @@
 coverage
 node_modules
-src
 test
 tsconfig*.json
 docs
