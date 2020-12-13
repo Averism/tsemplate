@@ -1,8 +1,7 @@
-# tsemplate
-TypeScript Template for Averism
+# Uninitialized TypeScript Template Project for Averism
 
-this is repo for template repo using typescript which pre-packaged with:
-- typescript dependency
-- unit test using mocha
-- coverage using istanbul
-- run/build/test/coverage script
+To initialize this project please run:
+
+```bash
+npm install
+```

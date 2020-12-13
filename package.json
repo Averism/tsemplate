@@ -1,42 +1,12 @@
 {
-  "name": "tsemplate",
-  "version": "1.0.0",
+  "name": "nameplaceholder",
+  "version": "0.0.1",
   "description": "TypeScript Template Project for Averism",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
   "scripts": {
-    "start": "node -r ts-node/register src/index.ts",
-    "build": "rm -rf build && mkdir build && npm run build:ts && npm run build:ts.d",
-    "build:ts": "tsc --project tsconfig.build.json --outDir build",
-    "build:ts.d": "tsc -d --project tsconfig.build.json --outDir build --emitDeclarationOnly",
-    "test": "mocha",
-    "cov": "nyc mocha",
-    "tsc": "tsc"
   },
   "author": "Averman",
   "license": "GPL-3.0",
   "devDependencies": {
-    "@types/mocha": "^8.0.3",
-    "@types/node": "^14.11.8",
-    "mocha": "^8.1.3",
-    "nyc": "^15.1.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
-  },
-  "nyc": {
-    "require": [
-      "ts-node/register"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
-    "excludeNodeModules": true,
-    "instrument": true,
-    "sourceMap": true,
-    "produce-source-map": true
+    "tsemplate": "github:averism/tsemplate#module/v2"
   }
 }
