@@ -71,12 +71,12 @@ let npmignore: Set<string> = new Set([
 ]);
 if(fs.existsSync(path.join(cwd,".gitignore"))){
   let existing = fs.readFileSync(path.join(cwd,".gitignore")).toString().split('\n');
-  for(let s of existing) gitignore.add(s);
+  for(let s of existing) gitignore.add(s.trim());
 }
 fs.writeFileSync(path.join(cwd,".gitignore"),Array.from(gitignore).join('\n'));
 if(fs.existsSync(path.join(cwd,".npmignore"))){
   let existing = fs.readFileSync(path.join(cwd,".npmignore")).toString().split('\n');
-  for(let s of existing) npmignore.add(s);
+  for(let s of existing) npmignore.add(s.trim());
 }
 fs.writeFileSync(path.join(cwd,".npmignore"),Array.from(gitignore).join('\n'));
 
