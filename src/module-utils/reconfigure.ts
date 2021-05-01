@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import readline from 'readline'
-import {buildconfig} from './templates/tsconfig'
+import {buildconfig, webconfig} from './templates/tsconfig'
 import cp from 'child_process'
 import * as strings from './templates/strings'
 import * as jobs from './templates/rubahjobs'
@@ -11,6 +11,7 @@ const crl = () => readline.createInterface({
     output: process.stdout,
 });
 const cwd: string = process.env.INIT_CWD;
+const fd: string = path.join('node_modules','tsemplate');
 
 async function reconfigure() {
 
@@ -46,12 +47,13 @@ async function reconfigure() {
     if(mode != "module" && mode != "application"){
         const rl = crl();
         mode = await new Promise(resolve => rl.question(
-            "do you want to develop a (module) or an application?", ans => {
+            "do you want to develop (module)/application/staticweb?", ans => {
             rl.close();
             resolve(ans);
         })) || 'module';
         packageJson.averModule.tsemplate.mode = mode;
         if(mode == "app" || mode == "application") mode = "application"
+        else if(mode == "static" || mode == "web" || mode == "staticweb") mode = "staticweb"
         else mode = "module";
     }
     console.log("reconfiguring for",mode);
@@ -74,6 +76,19 @@ async function reconfigure() {
             fs.writeFileSync(path.join(cwd,"src","module-utils","reconfigure.ts"),"//YOUR RECONFIGURE SCRIPT HERE");
         packageJson.scripts.postinstall = "node -r ts-node/register src/module-utils/postinstall.ts && "+
             "node -r ts-node/register src/module-utils/reconfigure.ts";
+    } else if(mode == "staticweb") {
+        fs.writeFileSync(path.join(cwd,"tsconfig.json"),JSON.stringify(webconfig,null,2));
+        let wpconf = fs.readFileSync(path.join(fd,'template','webpackconfig.js')).toString();
+        fs.writeFileSync(path.join(cwd,"webpack.config.js"),wpconf);
+        if(!fs.existsSync(path.join(cwd, "asset"))) fs.mkdirSync(path.join(cwd, "asset"));
+        fs.copyFileSync(path.join(fd,'template','favicon.png'), path.join(cwd, "asset", "favicon.png"));
+        packageJson.favicon = 'asset/favicon.png'
+        packageJson.devDependencies['webpack'] = "^5.36.2";
+        packageJson.devDependencies["webpack-cli"] = "^4.6.0";
+        packageJson.devDependencies["ts-loader"] = "^9.1.1";
+        packageJson.devDependencies["html-webpack-plugin"] = "^5.3.1";
+        packageJson.devDependencies["favicons"] = "^6.2.1",
+        packageJson.scripts['build'] = "webpack";
     } else {
         // APPLICATION RECONFIGURATION GOES HERE
     }

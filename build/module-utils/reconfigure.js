@@ -43,6 +43,7 @@ const crl = () => readline_1.default.createInterface({
     output: process.stdout,
 });
 const cwd = process.env.INIT_CWD;
+const fd = path_1.default.join('node_modules', 'tsemplate');
 function reconfigure() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("reconfiguring tsemplate");
@@ -71,13 +72,15 @@ function reconfigure() {
         let mode = packageJson.averModule.tsemplate.mode;
         if (mode != "module" && mode != "application") {
             const rl = crl();
-            mode = (yield new Promise(resolve => rl.question("do you want to develop a (module) or an application?", ans => {
+            mode = (yield new Promise(resolve => rl.question("do you want to develop (module)/application/staticweb?", ans => {
                 rl.close();
                 resolve(ans);
             }))) || 'module';
             packageJson.averModule.tsemplate.mode = mode;
             if (mode == "app" || mode == "application")
                 mode = "application";
+            else if (mode == "static" || mode == "web" || mode == "staticweb")
+                mode = "staticweb";
             else
                 mode = "module";
         }
@@ -102,6 +105,21 @@ function reconfigure() {
                 fs_1.default.writeFileSync(path_1.default.join(cwd, "src", "module-utils", "reconfigure.ts"), "//YOUR RECONFIGURE SCRIPT HERE");
             packageJson.scripts.postinstall = "node -r ts-node/register src/module-utils/postinstall.ts && " +
                 "node -r ts-node/register src/module-utils/reconfigure.ts";
+        }
+        else if (mode == "staticweb") {
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "tsconfig.json"), JSON.stringify(tsconfig_1.webconfig, null, 2));
+            let wpconf = fs_1.default.readFileSync(path_1.default.join(fd, 'template', 'webpackconfig.js')).toString();
+            fs_1.default.writeFileSync(path_1.default.join(cwd, "webpack.config.js"), wpconf);
+            if (!fs_1.default.existsSync(path_1.default.join(cwd, "asset")))
+                fs_1.default.mkdirSync(path_1.default.join(cwd, "asset"));
+            fs_1.default.copyFileSync(path_1.default.join(fd, 'template', 'favicon.png'), path_1.default.join(cwd, "asset", "favicon.png"));
+            packageJson.favicon = 'asset/favicon.png';
+            packageJson.devDependencies['webpack'] = "^5.36.2";
+            packageJson.devDependencies["webpack-cli"] = "^4.6.0";
+            packageJson.devDependencies["ts-loader"] = "^9.1.1";
+            packageJson.devDependencies["html-webpack-plugin"] = "^5.3.1";
+            packageJson.devDependencies["favicons"] = "^6.2.1",
+                packageJson.scripts['build'] = "webpack";
         }
         else {
             // APPLICATION RECONFIGURATION GOES HERE
