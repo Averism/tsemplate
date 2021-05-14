@@ -69,6 +69,8 @@ async function reconfigure() {
         packageJson.main = "build/index.js";
         packageJson.bin = "build/index.js";
         packageJson.types = "build/index.d.ts";
+        if(fs.readFileSync(path.join(cwd, "src","index.ts")).toString() == "//Your main script here")
+            fs.copyFileSync(path.join("src","module-utils","templates","module_index.ts"),path.join(cwd, "src","index.ts"))
         if(!fs.existsSync(path.join(cwd, "src", "module-utils"))) fs.mkdirSync(path.join(cwd, "src", "module-utils"));
         if(!fs.existsSync(path.join(cwd,"src","module-utils","postinstall.ts")))
             fs.writeFileSync(path.join(cwd,"src","module-utils","postinstall.ts"),"//YOUR POSTINSTALL SCRIPT HERE");
@@ -87,8 +89,11 @@ async function reconfigure() {
         packageJson.devDependencies["webpack-cli"] = "^4.6.0";
         packageJson.devDependencies["ts-loader"] = "^9.1.1";
         packageJson.devDependencies["html-webpack-plugin"] = "^5.3.1";
-        packageJson.devDependencies["favicons"] = "^6.2.1",
+        packageJson.devDependencies["favicons-webpack-plugin"] = "^5.0.2";
+        packageJson.devDependencies["http-server"] = "^0.12.3";
+        packageJson.devDependencies["@types/http-server"] = "^0.10.1";
         packageJson.scripts['build'] = "webpack";
+        packageJson.scripts['dev'] = "http-server dist -p 8080";
     } else {
         // APPLICATION RECONFIGURATION GOES HERE
     }
@@ -98,10 +103,14 @@ async function reconfigure() {
     if(!fs.existsSync(path.join(cwd, ".avermodule", "rubah"))) fs.mkdirSync(path.join(cwd, ".avermodule", "rubah"));
     let jobsPath = path.join(cwd, ".avermodule", "rubah","jobs");
     if(!fs.existsSync(jobsPath)) fs.mkdirSync(jobsPath);
+
     //Setting Up basic rubah jobs
     fs.writeFileSync(path.join(jobsPath,"package.json"),JSON.stringify(jobs.packagejson));
-    fs.writeFileSync(path.join(jobsPath,"index.json"),JSON.stringify(jobs.index));
-    fs.writeFileSync(path.join(jobsPath,"readme.json"),JSON.stringify(jobs.readme));
+    fs.writeFileSync(path.join(jobsPath,"readme.json"),JSON.stringify(jobs.readme(mode)));
+    
+    if(mode == "module") {
+        fs.writeFileSync(path.join(jobsPath,"index.json"),JSON.stringify(jobs.index));
+    }
 
     for(let moduleName in packageJson.averModule){
         if(moduleName == packageJson.name) continue;

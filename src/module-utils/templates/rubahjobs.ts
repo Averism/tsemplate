@@ -8,9 +8,13 @@ export const index = {
     "location": "src/index.ts"
 }
 
-export const readme = {
-    "command": "line_write",
-    "location": "readme.md",
-    "commentStyle": "html",
-    "dependson": ["package","index"]
+export const readme = (mode:string) => { 
+    let dependson = ["package"];
+    if (mode == "module") dependson.push("index");
+    return {
+        command: "line_write",
+        location: "readme.md",
+        commentStyle: "html",
+        dependson
+    }
 }
