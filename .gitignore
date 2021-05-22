@@ -1,0 +1,11 @@
+coverage
+node_modules
+.nyc_output
+temp
+.DS_Store
+.avermodule
+stats.json
+npm-debug.log
+.idea
+test.sh
+.env
