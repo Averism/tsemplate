@@ -43,7 +43,7 @@ if(!packageJson.nyc) packageJson.nyc = {
 //initializing source folder
 if(!fs.existsSync(path.join(cwd, "src"))) fs.mkdirSync(path.join(cwd, "src"));
 if(!fs.existsSync(path.join(cwd, "src","index.ts"))) 
-  fs.copyFileSync(path.join("src","module-utils","templates","index.ts"),path.join(cwd, "src","index.ts"))
+  fs.writeFileSync(path.join(cwd, "src","index.ts"),"//Your main script here");
 packageJson.scripts.rubah = "rubah generate";
 packageJson.scripts.start = "rubah generate && node -r ts-node/register src/index.ts"
 
