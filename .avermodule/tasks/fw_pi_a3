@@ -1,0 +1,10 @@
+{
+  "id": "fw_pi_a3",
+  "title": "pick an archetype",
+  "description": "pick an archetype for the project",
+  "group": "framework initialization",
+  "sortid": "fw_pi_04",
+  "lookup": "https://devstaticrepo.averism.com/a3/index.json",
+  "priority": "severe",
+  "actionid": "fw_pi_act"
+}

@@ -1,0 +1,65 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    margin: auto !important;
+}
+
+.centered {
+    text-align: center;
+}
+
+.bordered {
+    border: 2px;
+    border-color: gray;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.button {
+    border: 2px;
+    border-style: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    margin: 10px;
+    height: max-content;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.button2 {
+    border: 2px;
+    border-style: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    margin: 10px;
+    margin-left: 15%;
+    height: max-content;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.header {
+    height: 10%;
+    margin: auto !important;
+    display: flex;
+}
+
+#maindiv {
+    display: flex;
+    height: 89%;
+}
+
+#leftmenu {
+    width: 20%;
+    display: flex;
+    height: 100%;
+}
+
+#content {
+    width: 80%;
+    display: flex;
+    height: 100%;
+    padding-left: 20px;
+}

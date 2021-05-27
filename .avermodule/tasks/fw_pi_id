@@ -1,0 +1,9 @@
+{
+  "id": "fw_pi_id",
+  "title": "project name",
+  "description": "insert the project's name",
+  "group": "framework initialization",
+  "sortid": "fw_pi_00",
+  "priority": "severe",
+  "actionid": "fw_pi_act"
+}
