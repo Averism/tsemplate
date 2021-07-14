@@ -7,6 +7,6 @@
   "author": "Averman",
   "license": "GPL-3.0",
   "devDependencies": {
-    "tsemplate": "github:averism/tsemplate#module/v3"
+    "tsemplate": "github:averism/tsemplate#module/v2"
   }
 }
